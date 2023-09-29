@@ -1,0 +1,6 @@
+<mat-icon>{{data.icon}}</mat-icon>
+<span><b>{{data.message}}</b></span>
+<span>
+    <button *ngIf="data.action" mat-button (click)="snackBarRef.dismiss()">{{data.action}}</button>
+</span>
+<div class="circle"></div>

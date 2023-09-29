@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.card {
+    flex: 1;
+    padding: 10px;
+
+    h2 {
+        margin: 0px;
+    }
+}
+
+.cardRight {
+    flex: 0 0 250px;
+}
