@@ -4,14 +4,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { HomeComponent } from './components/home/home.component';
-import { IconSnackbarComponent } from './components/icon-snackbar/icon-snackbar.component';
-import { DocumentListComponent } from './components/document-list/document-list.component';
-import { HeaderComponent } from './components/header/header.component';
+import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
+import { HomeComponent } from './components/tabs/home/home.component';
+import { IconSnackbarComponent } from './components/shared/icon-snackbar/icon-snackbar.component';
+import { DocumentListComponent } from './components/tabs/document-list/document-list.component';
+import { HeaderComponent } from './components/core/header/header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { SidenavComponent } from './components/core/sidenav/sidenav.component';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { TestnavComponent } from './testnav/testnav.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +26,9 @@ import { MatButtonModule } from '@angular/material/button';
     HomeComponent,
     IconSnackbarComponent,
     DocumentListComponent,
-    HeaderComponent
+    HeaderComponent,
+    SidenavComponent,
+    TestnavComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,11 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserAnimationsModule,
     MatIconModule,
     MatSnackBarModule,
-    MatButtonModule
+    MatButtonModule,
+    HttpClientModule,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
