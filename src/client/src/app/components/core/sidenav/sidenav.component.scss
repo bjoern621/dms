@@ -2,3 +2,15 @@
     height: 100%;
     background-color: #284b63;
 }
+
+button {
+    min-width: unset;
+    width: 100%;
+    justify-content: start;
+    border-radius: 0px;
+
+    &.linkActive {
+        color: black;
+        background-color: white;
+    }
+}

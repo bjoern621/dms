@@ -1,9 +1,9 @@
 <div (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" class="container" [ngClass]="opened ? 'open' : ''">
     <div *ngFor="let x of navElements">
-        <button mat-button routerLink="/{{x.route}}" routerLinkActive="linkActive" style="min-width: unset;">
+        <button mat-button routerLink="/{{x.route}}" routerLinkActive="linkActive">
             <mat-icon
                 style="font-size: 30px; height: 30px; width: 30px; margin: 0px; padding: 0px;">{{x.iconName}}</mat-icon>
-            <span *ngIf="opened">{{x.elementText}}</span>
+            <span *ngIf="opened" style="margin-left: 5px;">{{x.elementText}}</span>
         </button>
     </div>
 </div>
