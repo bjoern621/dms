@@ -12,7 +12,6 @@ export class DocumentListComponent {
   folderPath = '/path/to/your/folder';
   folderContent: string[] = [];
 
-  constructor() { }
 
   ngOnInit() {
     this.loadFolderContent();
@@ -53,15 +52,14 @@ export class DocumentListComponent {
   }
 
   public getDateString(date: Date) {
-    date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
     let now = new Date();
-    let today = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
-    let yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
+    let todayString = now.toDateString();
+    let yesterdayString = new Date(now.getTime() - 24 * 60 * 60 * 1000).toDateString();
 
-    switch (date.getUTCDate()) {
-      case today.getUTCDate():
+    switch (date.toDateString()) {
+      case todayString:
         return 'Heute'
-      case yesterday.getUTCDate():
+      case yesterdayString:
         return 'Gestern'
       default:
         return date.toLocaleDateString()
