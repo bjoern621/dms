@@ -1,14 +1,14 @@
 <div style="height: 100%; display: flex; flex-direction: column;">
-    <div>
+    <div style="height: 60px;">
         <app-header></app-header>
     </div>
 
-    <div style="height: 100%; display: flex;">
+    <div style="height: calc(100% - 60px); display: flex;">
         <div>
             <app-sidenav></app-sidenav>
         </div>
         <div style="flex: 1;">
-            <span>Content goes here</span>
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
