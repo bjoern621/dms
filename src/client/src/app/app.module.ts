@@ -17,7 +17,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SidenavComponent } from './components/core/sidenav/sidenav.component';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { OverflownClassIfOverflownDirective } from './directives/extra-padding-right-if-overflown.directive/overflown-class-if-overflown-directive';
+import { OverflownClassIfOverflownDirective } from './directives/overflown-class-if-overflown.directive/overflown-class-if-overflown-directive';
 
 @NgModule({
   declarations: [
