@@ -13,12 +13,17 @@ export class DocumentListComponent {
 
   private data: DocumentListViewModel[] = [];
 
+  handleFileInput(_event: any) {
+    // this.fileToUpload = files.item(0);
+  }
+
   constructor(http: HttpClient, snackbar: SnackbarService) {
     http.get<DocumentListViewModel[]>('api/documentlist').pipe(
       map(items => {
         return items.map(item => ({
           documentName: item.documentName,
-          creationDate: new Date(item.creationDate)
+          creationDate: new Date(item.creationDate),
+          preview: new Blob()
         }));
       }),
       retry(3),
@@ -76,9 +81,15 @@ export class DocumentListComponent {
   public openUploadDialog() {
 
   }
+
+  public open() {
+    console.log("123");
+
+  }
 }
 
 export interface DocumentListViewModel {
   documentName: string;
   creationDate: Date;
+  preview: Blob;
 }
