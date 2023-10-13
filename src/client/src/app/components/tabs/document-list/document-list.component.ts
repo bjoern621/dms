@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-document-list',
@@ -7,36 +9,33 @@ import { Component } from '@angular/core';
 })
 export class DocumentListComponent {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  data = data;
 
-  folderPath = '/path/to/your/folder';
-  folderContent: string[] = [];
+  private data: DocumentListViewModel[] = [];
 
-
-  ngOnInit() {
-    this.loadFolderContent();
+  constructor(http: HttpClient) {
+    http.get<DocumentListViewModel[]>('api/documentlist').pipe(
+      map(items => {
+        return items.map(item => ({
+          documentName: item.documentName,
+          creationDate: new Date(item.creationDate)
+        }));
+      })
+    ).subscribe((value) => {
+      this.data = value;
+      this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
+    });
   }
 
-  async loadFolderContent() {
-    try {
-      // this.folderContent = await this.fileReader.readFolderContent(this.folderPath);
-    } catch (err) {
-      console.error('Error reading folder content:', err);
-    }
-  }
+  groupedAndSortedMetadata: { date: Date; items: DocumentListViewModel[] }[] = [];
 
-  groupedAndSortedMetadata: { date: Date; items: Metadata[] }[] = this.groupAndSortByDay(
-    this.data
-  );
-
-  groupAndSortByDay(items: Metadata[]): { date: Date; items: Metadata[] }[] {
-    const groupedItems: { date: Date; items: Metadata[] }[] = [];
+  private groupAndSortByDay(items: DocumentListViewModel[]): { date: Date; items: DocumentListViewModel[] }[] {
+    const groupedItems: { date: Date; items: DocumentListViewModel[] }[] = [];
 
     // Sort the items by history (date created) in descending order
-    items.sort((a, b) => b.history.getTime() - a.history.getTime());
+    items.sort((a, b) => b.creationDate.getTime() - a.creationDate.getTime());
 
     items.forEach((item) => {
-      const itemDateString = item.history.toDateString();
+      const itemDateString = item.creationDate.toDateString();
       const existingGroup = groupedItems.find((group) =>
         group.date.toDateString() === itemDateString
       );
@@ -44,7 +43,7 @@ export class DocumentListComponent {
       if (existingGroup) {
         existingGroup.items.push(item);
       } else {
-        groupedItems.push({ date: item.history, items: [item] });
+        groupedItems.push({ date: item.creationDate, items: [item] });
       }
     });
 
@@ -65,43 +64,13 @@ export class DocumentListComponent {
         return date.toLocaleDateString()
     }
   }
+
+  public openUploadDialog() {
+
+  }
 }
 
-export interface Metadata {
-  fileName: string;
-  fileType: string;
-  tags?: string[];
-  history: Date;
-  importedFrom: string
+export interface DocumentListViewModel {
+  documentName: string;
+  creationDate: Date;
 }
-
-const data: Metadata[] = [
-  {
-    fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email',
-    history: new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
-  },
-  {
-    fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email',
-    history: new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
-  },
-  {
-    fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email',
-    history: new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
-  },
-  {
-    fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email',
-    history: new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
-  },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date(), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date(), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date(), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date(), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date(), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date('2023/09/10'), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date('2023/09/10'), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date('2023/09/8'), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date('2023/09/7'), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date('2023/09/7'), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date('2023/09/7'), },
-  { fileName: 'myfile.pdf', fileType: 'Rechnung', importedFrom: 'Email', history: new Date('2023/07/7'), },
-]
