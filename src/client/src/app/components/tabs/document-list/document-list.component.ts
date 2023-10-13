@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { map } from 'rxjs';
+import { catchError, map, retry, throwError } from 'rxjs';
+import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-document-list',
@@ -12,21 +13,28 @@ export class DocumentListComponent {
 
   private data: DocumentListViewModel[] = [];
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, snackbar: SnackbarService) {
     http.get<DocumentListViewModel[]>('api/documentlist').pipe(
       map(items => {
         return items.map(item => ({
           documentName: item.documentName,
           creationDate: new Date(item.creationDate)
         }));
-      })
-    ).subscribe((value) => {
-      this.data = value;
-      this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
+      }),
+      retry(3),
+      catchError((error: HttpErrorResponse) => {
+        snackbar.showError(error.message);
+        throw new Error(error.message);
+      }),
+    ).subscribe({
+      next: (value) => {
+        this.data = value;
+        this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
+      },
     });
   }
 
-  groupedAndSortedMetadata: { date: Date; items: DocumentListViewModel[] }[] = [];
+  public groupedAndSortedMetadata: { date: Date; items: DocumentListViewModel[] }[] = [];
 
   private groupAndSortByDay(items: DocumentListViewModel[]): { date: Date; items: DocumentListViewModel[] }[] {
     const groupedItems: { date: Date; items: DocumentListViewModel[] }[] = [];
