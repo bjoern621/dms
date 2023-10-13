@@ -3,11 +3,12 @@
     <div style="display: flex; gap: 10px;">
         <input type="file" (change)="handleFileInput($event)" hidden #fileInput>
         <button mat-stroked-button (click)="fileInput.click()">
-            <mat-icon class="icon-outlined" style="font-size: 25px; height: 25px; width: 25px;">upload</mat-icon>
+            <mat-icon class="icon-outlined icon-25px">upload</mat-icon>
             Hochladen
         </button>
         <button mat-stroked-button>Teilen</button>
-        <button mat-stroked-button style="min-width: unset;"><mat-icon style="margin: 0px;">menu</mat-icon></button>
+        <button mat-stroked-button style="min-width: unset;"><mat-icon class="icon-outlined icon-25px"
+                style="margin: 0px;">menu</mat-icon></button>
     </div>
 
     <!-- Document previews -->

@@ -65,18 +65,30 @@ body {
     }
 }
 
-.icon-filled {
-    font-variation-settings:
-        'FILL' 1,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 48
+.icon-25px {
+    font-size: 25px !important;
+    height: 25px !important;
+    width: 25px !important;
+}
+
+.icon-40px {
+    font-size: 40px !important;
+    height: 40px !important;
+    width: 40px !important;
 }
 
 .icon-outlined {
     font-variation-settings:
         'FILL' 0,
-        'wght' 400,
+        'wght' 600,
+        'GRAD' 0,
+        'opsz' 48
+}
+
+.icon-filled {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 600,
         'GRAD' 0,
         'opsz' 48
 }

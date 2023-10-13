@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class SidenavComponent {
   public navElements: NavElement[] = [
     { elementText: "Home", iconName: "home", route: "home" },
-    { elementText: "Liste", iconName: "search", route: "list" },
+    { elementText: "Liste", iconName: "pageview", route: "list" },
     { elementText: "Tags", iconName: "label", route: "tags" },
     { elementText: "Kalender", iconName: "event", route: "calendar" },
     { elementText: "Einstellungen", iconName: "settings", route: "settings" },
