@@ -9,7 +9,7 @@ import { HomeComponent } from './components/tabs/home/home.component';
 import { IconSnackbarComponent } from './components/shared/icon-snackbar/icon-snackbar.component';
 import { DocumentListComponent } from './components/tabs/document-list/document-list.component';
 import { HeaderComponent } from './components/core/header/header.component';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
@@ -45,4 +45,8 @@ import { OverflownClassIfOverflownDirective } from './directives/overflown-class
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(iconRegistry: MatIconRegistry) {
+    iconRegistry.setDefaultFontSetClass('material-symbols-rounded');
+  }
+}
