@@ -28,7 +28,7 @@ namespace server.Controllers
                 .Select(d => new DocumentListViewModel
                 {
                     DocumentName = d.FilePath == null ? "" : d.FilePath.Substring(d.FilePath.LastIndexOf('\\') + 1),
-                    CreationDate = (d.History == null || d.History.First() == null || d.History.First().Date == null) ? DateOnly.FromDateTime(DateTime.Now) : DateOnly.FromDateTime(d.History.First().Date.Value)
+                    CreationDate = (d.History == null || d.History.First() == null || d.History.First().Date == null) ? DateOnly.MaxValue : DateOnly.FromDateTime(d.History.First().Date.Value)
                 })
                 .ToArray();
         }
