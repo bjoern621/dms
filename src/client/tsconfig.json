@@ -23,9 +23,10 @@
       "ES2022",
       "dom"
     ],
-    "typeRoots": [
-      "node_modules/@angular/material"
-    ]
+    // "typeRoots": [
+    //   "node_modules/@angular/material"
+    // ],
+    "esModuleInterop": true // see: https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
