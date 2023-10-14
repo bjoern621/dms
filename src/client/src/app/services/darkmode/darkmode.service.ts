@@ -8,8 +8,6 @@ export class DarkmodeService {
   constructor() {
     const prefersDarkmode = window.matchMedia('(prefers-color-scheme: dark)');
 
-    this.setOrToggleDarkmode(prefersDarkmode.matches)
-
     // Listen for changes to the prefers-color-scheme media query
     prefersDarkmode.addEventListener('change', (mediaQuery) => this.setOrToggleDarkmode(mediaQuery.matches));
   }
