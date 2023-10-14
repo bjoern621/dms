@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DarkmodeService } from 'src/app/services/darkmode/darkmode.service';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
@@ -7,9 +8,13 @@ import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private _snackbarService: SnackbarService) { }
+  constructor(private _snackbarService: SnackbarService, private darkmode: DarkmodeService) { }
 
   openSnackBar() {
     this._snackbarService.showError('Success!');
+  }
+
+  public setDarkmode() {
+    this.darkmode.setDarkmode(undefined);
   }
 }
