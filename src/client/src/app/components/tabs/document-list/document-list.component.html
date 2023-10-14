@@ -13,6 +13,10 @@
 
     <!-- Document previews -->
     <div class="preview-container" appOverflownClassIfOverflown>
+        <div *ngIf="groupedAndSortedMetadata.length <= 0">
+            <span>Dokumente konnten nicht geladen werden... :(</span>
+        </div>
+
         <div *ngFor="let group of groupedAndSortedMetadata">
             <div class="card">
                 {{ getDateString(group.date) }}

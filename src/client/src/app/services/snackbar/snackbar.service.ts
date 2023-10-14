@@ -6,30 +6,30 @@ import { IconSnackbarComponent } from 'src/app/components/shared/icon-snackbar/i
   providedIn: 'root'
 })
 export class SnackbarService {
-  private _displayDuration = 3000;
+  private displayDuration = 3000;
 
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar) { }
 
   public showSuccess(message: string) {
-    this._snackBar.openFromComponent(
+    this.snackBar.openFromComponent(
       IconSnackbarComponent,
       this.getIconConfig(message, 'done', 'green-snackbar'));
   }
 
   public showError(message: string) {
-    this._snackBar.openFromComponent(
+    this.snackBar.openFromComponent(
       IconSnackbarComponent,
       this.getIconConfig(message, 'error', 'red-snackbar'));
   }
 
   public showWarning(message: string) {
-    this._snackBar.openFromComponent(
+    this.snackBar.openFromComponent(
       IconSnackbarComponent,
       this.getIconConfig(message, 'warning', 'yellow-snackbar'));
   }
 
   public showInfo(message: string) {
-    this._snackBar.openFromComponent(
+    this.snackBar.openFromComponent(
       IconSnackbarComponent,
       this.getIconConfig(message, 'info', 'blue-snackbar'));
   }
@@ -37,9 +37,9 @@ export class SnackbarService {
   private getIconConfig(message: string, icon: string, cssClass: string): any {
     return {
       announcementMessage: message,
-      duration: this._displayDuration,
+      duration: this.displayDuration,
       data: {
-        _snackBar: this._snackBar,
+        snackBar: this.snackBar,
         message: message,
         icon: icon
       },

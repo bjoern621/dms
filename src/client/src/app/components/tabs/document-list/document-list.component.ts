@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { catchError, map, retry, throwError } from 'rxjs';
+import { catchError, map, retry } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
@@ -13,10 +13,6 @@ export class DocumentListComponent {
 
   private data: DocumentListViewModel[] = [];
 
-  handleFileInput(_event: any) {
-    // this.fileToUpload = files.item(0);
-  }
-
   constructor(http: HttpClient, snackbar: SnackbarService) {
     http.get<DocumentListViewModel[]>('api/documentlist').pipe(
       map(items => {
@@ -26,7 +22,7 @@ export class DocumentListComponent {
           preview: new Blob()
         }));
       }),
-      retry(3),
+      retry(2),
       catchError((error: HttpErrorResponse) => {
         snackbar.showError(error.message);
         throw new Error(error.message);
@@ -78,8 +74,14 @@ export class DocumentListComponent {
     }
   }
 
-  public openUploadDialog() {
+  public handleFileInput(event: any) {
+    console.log(event.type);
 
+    const file: File = event.target.files[0];
+
+    console.log(file);
+
+    // this.fileToUpload = files.item(0);
   }
 
   public open() {

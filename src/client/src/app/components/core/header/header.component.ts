@@ -8,10 +8,10 @@ import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private _snackbarService: SnackbarService, private darkmode: DarkmodeService) { }
+  constructor(private snackbarService: SnackbarService, private darkmode: DarkmodeService) { }
 
   openSnackBar() {
-    this._snackbarService.showError('Success!');
+    this.snackbarService.showError('Success!');
   }
 
   public setDarkmode() {
