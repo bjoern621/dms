@@ -7,14 +7,15 @@
             Hochladen
         </button>
         <button mat-stroked-button>Teilen</button>
-        <button mat-stroked-button style="min-width: unset;"><mat-icon class="icon-outlined icon-25px"
-                style="margin: 0px;">menu</mat-icon></button>
+        <button mat-stroked-button style="min-width: unset;">
+            <mat-icon class="icon-outlined icon-25px" style="margin: 0px;">menu</mat-icon>
+        </button>
     </div>
 
     <!-- Document previews -->
     <div class="preview-container" appOverflownClassIfOverflown>
         <div *ngIf="groupedAndSortedMetadata.length <= 0">
-            <span>Dokumente konnten nicht geladen werden... :(</span>
+            <b>Dokumente konnten nicht geladen werden... :(</b>
         </div>
 
         <div *ngFor="let group of groupedAndSortedMetadata">

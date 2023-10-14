@@ -50,7 +50,7 @@
     }
 }
 
-button {
-    background-color: var(--light-info);
-    color: var(--info) !important;
+:host-context(.darkmode) button {
+    color: white;
+    border-color: var(--dark-2);
 }

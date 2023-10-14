@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
-@import '~@angular/material/prebuilt-themes/purple-green.css';
+// @import '~@angular/material/prebuilt-themes/purple-green.css';
 
 * {
     font-family: 'Mukta', sans-serif;
+}
 
+:root {
     --info: #1976d2;
     --light-info: #cfe8ff;
     --light-success: #bbf7d0;
@@ -13,6 +15,12 @@
     --warning: #fbc02d;
     --light-error: #fecdd3;
     --error: #d32f2f;
+
+    --dark-0: #121212;
+    --dark-1: #242423;
+    --dark-2: #333533;
+    --light-0: #CFDBD5;
+    --accent: #F5CB5C;
 }
 
 body {
@@ -20,22 +28,9 @@ body {
     height: 100vh;
 }
 
-.not-selectable {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
 .card {
     border-radius: 6px;
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
-}
-
-body.darkmode .card {
-    background-color: #242423;
 }
 
 .italic {
@@ -98,6 +93,6 @@ body.darkmode .card {
 }
 
 .darkmode {
-    color: #CFDBD5;
-    background-color: #121212;
+    color: white;
+    background-color: var(--dark-0);
 }

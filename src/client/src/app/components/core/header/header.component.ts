@@ -14,7 +14,7 @@ export class HeaderComponent {
     this.snackbarService.showError('Success!');
   }
 
-  public setDarkmode() {
-    this.darkmode.setDarkmode(undefined);
+  public toggleDarkmode() {
+    this.darkmode.setOrToggleDarkmode(undefined);
   }
 }

@@ -8,14 +8,18 @@ export class DarkmodeService {
   constructor() {
     const prefersDarkmode = window.matchMedia('(prefers-color-scheme: dark)');
 
-    this.setDarkmode(prefersDarkmode.matches)
+    this.setOrToggleDarkmode(prefersDarkmode.matches)
 
     // Listen for changes to the prefers-color-scheme media query
-    prefersDarkmode.addEventListener('change', (mediaQuery) => this.setDarkmode(mediaQuery.matches));
+    prefersDarkmode.addEventListener('change', (mediaQuery) => this.setOrToggleDarkmode(mediaQuery.matches));
   }
 
-  public setDarkmode(set: boolean | undefined) {
-    const body = document.getElementsByTagName('body')[0];
-    body.classList.toggle('darkmode', set);
+  public setOrToggleDarkmode(set: boolean | undefined) {
+    // if (set === undefined) {
+    //   set = !document.documentElement.classList.contains('darkmode');
+    // }
+
+    document.documentElement.classList.toggle('darkmode', set);
+    // document.documentElement.classList.toggle('lightmode', !set);
   }
 }
