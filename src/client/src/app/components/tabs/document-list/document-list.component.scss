@@ -49,8 +49,3 @@
         width: 100%;
     }
 }
-
-:host-context(.darkmode) button {
-    color: white;
-    border-color: var(--dark-2);
-}

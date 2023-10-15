@@ -1,7 +1,7 @@
 <div style="display: flex; flex-direction: column; gap: 10px; height: 100%;">
     <!-- Buttons -->
     <div style="display: flex; gap: 10px;">
-        <input type="file" (change)="handleFileInput($event)" hidden #fileInput>
+        <input type="file" multiple (change)="handleFileInput($event)" hidden #fileInput>
         <button mat-stroked-button (click)="fileInput.click()">
             <mat-icon class="icon-outlined icon-25px">upload</mat-icon>
             Hochladen

@@ -92,7 +92,16 @@ body {
         'opsz' 48
 }
 
-.darkmode {
+html.darkmode {
     color: white;
     background-color: var(--dark-0);
+}
+
+html.darkmode button {
+    color: white !important;
+    border-color: var(--dark-2) !important;
+
+    &:hover {
+        background-color: var(--dark-1);
+    }
 }

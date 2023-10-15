@@ -1,4 +1,4 @@
-<div (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" class="container" [ngClass]="opened ? 'open' : ''">
+<div (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" style="height: 100%;" [ngClass]="opened ? 'open' : ''">
     <div *ngFor="let x of navElements">
         <button mat-button routerLink="/{{x.route}}" routerLinkActive="linkActive" style="padding: 25px 10px;">
             <mat-icon class="icon-outlined icon-40px" style="margin: 0px;"

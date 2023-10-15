@@ -1,8 +1,3 @@
-.container {
-    height: 100%;
-    background-color: #284b63;
-}
-
 button {
     min-width: unset;
     width: 100%;
@@ -10,7 +5,14 @@ button {
     border-radius: 0px;
 
     &.linkActive {
-        color: #353535;
+        color: var(--accent);
         background-color: white;
+    }
+}
+
+:host-context(.darkmode) button {
+    &.linkActive {
+        color: var(--accent) !important;
+        background-color: var(--dark-0);
     }
 }
