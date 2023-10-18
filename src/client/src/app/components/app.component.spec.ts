@@ -5,11 +5,12 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header/header.component';
 import { SidenavComponent } from './core/sidenav/sidenav.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDividerModule } from '@angular/material/divider';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
     declarations: [AppComponent, HeaderComponent, SidenavComponent],
-    imports: [RouterTestingModule, MatSnackBarModule]
+    imports: [RouterTestingModule, MatSnackBarModule, MatDividerModule]
   }));
 
   it('should create the app', () => {
