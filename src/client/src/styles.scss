@@ -1,6 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+
+@import "@angular/material/theming";
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
-// @import '~@angular/material/prebuilt-themes/purple-green.css';
+
+@include mat.core();
+
+$primary: mat.define-palette(mat.$teal-palette, 500, 100, 900);
+$accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$warn: mat.define-palette(mat.$red-palette);
+
+$angular-light-theme: mat.define-light-theme((color: (primary: $primary,
+                accent: $accent,
+                warn: $warn,
+            ),
+            typography: mat.define-typography-config(),
+            density: 0, ));
+
+$angular-dark-theme: mat.define-dark-theme((color: (primary: $primary,
+                accent: $accent,
+                warn: $warn,
+            ), ));
+
+@include mat.all-component-themes($angular-light-theme);
 
 * {
     font-family: 'Mukta', sans-serif;
@@ -92,16 +114,6 @@ body {
         'opsz' 48
 }
 
-html.darkmode {
-    color: white;
-    background-color: var(--dark-0);
-}
-
-html.darkmode button {
-    color: white !important;
-    border-color: var(--dark-2) !important;
-
-    &:hover {
-        background-color: var(--dark-1);
-    }
+body.darkmode {
+    @include mat.all-component-colors($angular-dark-theme);
 }

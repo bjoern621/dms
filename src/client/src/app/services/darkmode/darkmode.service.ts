@@ -13,11 +13,6 @@ export class DarkmodeService {
   }
 
   public setOrToggleDarkmode(set: boolean | undefined) {
-    // if (set === undefined) {
-    //   set = !document.documentElement.classList.contains('darkmode');
-    // }
-
-    document.documentElement.classList.toggle('darkmode', set);
-    // document.documentElement.classList.toggle('lightmode', !set);
+    document.body.classList.toggle('darkmode', set);
   }
 }

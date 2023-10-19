@@ -13,10 +13,10 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
-<body>
+<body class="mat-app-background">
   <script>
     const prefersDarkmode = window.matchMedia('(prefers-color-scheme: dark)');
-    document.documentElement.classList.toggle('darkmode', prefersDarkmode.matches);
+    document.body.classList.toggle('darkmode', prefersDarkmode.matches);
   </script>
   <app-root></app-root>
 </body>
