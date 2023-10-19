@@ -1,7 +1,7 @@
-<div style="display: flex; flex-direction: column; gap: 10px; height: 100%;">
+<div style="display: flex; flex-direction: column;">
     <!-- Buttons -->
     <div style="display: flex; gap: 10px;">
-        <input type="file" multiple (change)="handleFileInput($event)" hidden #fileInput>
+        <input type="file" accept=".pdf" multiple (change)="handleFileInput($event)" hidden #fileInput>
         <button mat-stroked-button (click)="fileInput.click()">
             <mat-icon class="icon-outlined icon-25px">upload</mat-icon>
             Hochladen
@@ -12,25 +12,26 @@
         </button>
     </div>
 
-    <!-- Document previews -->
-    <div class="preview-container" appOverflownClassIfOverflown>
+    <!-- Documents -->
+    <div style="display: flex; flex-direction: column;" appOverflownClassIfOverflown>
         <div *ngIf="groupedAndSortedMetadata.length <= 0">
             <b>Dokumente konnten nicht geladen werden... :(</b>
         </div>
 
         <div *ngFor="let group of groupedAndSortedMetadata">
-            <div class="card">
-                {{ getDateString(group.date) }}
-            </div>
+            <mat-card style="padding: 5px 15px; margin: 20px;">
+                <b>{{ getDateString(group.date) }}</b>
+            </mat-card>
 
-            <div class="hori-container">
-                <div class="documentView" *ngFor="let item of group.items" (click)="open()">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <mat-card class="documentInfoContainer" *ngFor="let item of group.items" (click)="open()">
                     <div style="background-color: blanchedalmond; height: 100px; width: 75%;"></div>
-                    <div class="lowerDiv">
+                    <mat-divider style="width: 100%;"></mat-divider>
+                    <div style="display: flex; flex-direction: column; width: 100%; padding-left: 5px;">
                         <span>{{item.documentName}}</span>
-                        <span class="italic">{{item.creationDate.toLocaleDateString()}}</span>
+                        <span style="font-style: italic;">{{item.creationDate.toLocaleDateString()}}</span>
                     </div>
-                </div>
+                </mat-card>
             </div>
         </div>
     </div>

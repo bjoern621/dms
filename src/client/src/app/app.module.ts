@@ -18,6 +18,7 @@ import { SidenavComponent } from './components/core/sidenav/sidenav.component';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { OverflownClassIfOverflownDirective } from './directives/overflown-class-if-overflown.directive/overflown-class-if-overflown-directive';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { OverflownClassIfOverflownDirective } from './directives/overflown-class
     HttpClientModule,
     MatSidenavModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

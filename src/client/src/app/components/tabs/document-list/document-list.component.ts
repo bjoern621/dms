@@ -9,8 +9,6 @@ import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
   styleUrls: ['./document-list.component.scss']
 })
 export class DocumentListComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-
   private data: DocumentListViewModel[] = [];
 
   constructor(http: HttpClient, snackbar: SnackbarService) {
@@ -19,7 +17,7 @@ export class DocumentListComponent {
         return items.map(item => ({
           documentName: item.documentName,
           creationDate: new Date(item.creationDate),
-          preview: new Blob()
+          previewImage: new Blob()
         }));
       }),
       retry(2),
@@ -31,7 +29,7 @@ export class DocumentListComponent {
       next: (value) => {
         this.data = value;
         this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
-      },
+      }
     });
   }
 
@@ -74,14 +72,11 @@ export class DocumentListComponent {
     }
   }
 
-  public handleFileInput(event: any) {
-    console.log(event.type);
-
-    const file: File = event.target.files[0];
+  public handleFileInput(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    const file: File | null = (fileInput.files && fileInput.files[0]) || null;
 
     console.log(file);
-
-    // this.fileToUpload = files.item(0);
   }
 
   public open() {
@@ -93,5 +88,5 @@ export class DocumentListComponent {
 export interface DocumentListViewModel {
   documentName: string;
   creationDate: Date;
-  preview: Blob;
+  previewImage: Blob;
 }

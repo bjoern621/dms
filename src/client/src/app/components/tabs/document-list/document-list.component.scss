@@ -1,18 +1,6 @@
-.card {
-    height: 30px;
-    padding-left: 10px;
-    background-color: #D9D9D9;
-    color: #353535;
-    box-shadow: none;
-
-    display: flex;
-    align-items: center;
-}
-
 .preview-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     overflow: auto;
 
     &.overflown {
@@ -20,32 +8,14 @@
     }
 }
 
-.hori-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding-top: 10px;
-}
-
-.documentView {
+.documentInfoContainer {
     flex: 0 1 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid lightgray;
-    border-radius: 5px;
-    background-color: whitesmoke;
+    border: 2px solid rgba(255, 255, 255, 0.1);
 
     &:hover {
-        border-color: var(--info);
-    }
-
-    .lowerDiv {
-        background-color: white;
-        display: flex;
-        flex-direction: column;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-        width: 100%;
+        border-color: var(--accent);
     }
 }
