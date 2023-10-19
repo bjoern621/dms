@@ -10,7 +10,7 @@ export class SidenavComponent {
     { elementText: "Home", iconName: "home", route: "home" },
     { elementText: "Liste", iconName: "pageview", route: "list" },
     { elementText: "Tags", iconName: "label", route: "tags" },
-    { elementText: "Kalender", iconName: "event", route: "calendar" },
+    { elementText: "Erinnerungen", iconName: "event", route: "reminders" },
     { elementText: "Einstellungen", iconName: "settings", route: "settings" },
   ];
 
