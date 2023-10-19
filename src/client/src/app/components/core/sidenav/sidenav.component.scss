@@ -6,13 +6,5 @@ button {
 
     &.linkActive {
         color: var(--accent);
-        background-color: white;
-    }
-}
-
-:host-context(.darkmode) button {
-    &.linkActive {
-        color: var(--accent) !important;
-        background-color: var(--dark-0);
     }
 }
