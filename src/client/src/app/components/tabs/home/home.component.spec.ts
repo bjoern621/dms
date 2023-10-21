@@ -5,6 +5,7 @@ import { DocumentListComponent } from '../document-list/document-list.component'
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -13,7 +14,7 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent, DocumentListComponent],
-      imports: [HttpClientTestingModule, MatSnackBarModule, MatIconModule]
+      imports: [HttpClientTestingModule, MatSnackBarModule, MatIconModule, MatMenuModule]
     });
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;

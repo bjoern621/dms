@@ -19,6 +19,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { OverflownClassIfOverflownDirective } from './directives/overflown-class-if-overflown.directive/overflown-class-if-overflown-directive';
 import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

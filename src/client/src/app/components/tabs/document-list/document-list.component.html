@@ -7,9 +7,16 @@
             Hochladen
         </button>
         <button mat-stroked-button>Teilen</button>
-        <button mat-stroked-button style="min-width: unset;">
+        <button mat-stroked-button [matMenuTriggerFor]="moreMenu" style="min-width: unset;">
             <mat-icon class="icon-outlined icon-25px" style="margin: 0px;">menu</mat-icon>
         </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item (click)="refreshData()">
+                <mat-icon icon-outlined icon-25px>sync</mat-icon>
+                <span>Aktualisieren</span>
+            </button>
+        </mat-menu>
     </div>
 
     <!-- Documents -->

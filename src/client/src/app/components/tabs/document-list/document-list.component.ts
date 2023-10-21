@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { catchError, map, retry } from 'rxjs';
+import { Observable, catchError, map, retry } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
@@ -11,8 +11,17 @@ import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 export class DocumentListComponent {
   private data: DocumentListViewModel[] = [];
 
-  constructor(http: HttpClient, snackbar: SnackbarService) {
-    http.get<DocumentListViewModel[]>('api/documentlist').pipe(
+  constructor(private http: HttpClient, private snackbar: SnackbarService) {
+    this.loadData().subscribe({
+      next: (value) => {
+        this.data = value;
+        this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
+      },
+    });
+  }
+
+  private loadData(): Observable<DocumentListViewModel[]> {
+    return this.http.get<DocumentListViewModel[]>('api/documentlist').pipe(
       map(items => {
         return items.map(item => ({
           documentName: item.documentName,
@@ -20,17 +29,11 @@ export class DocumentListComponent {
           previewImage: new Blob()
         }));
       }),
-      retry(2),
       catchError((error: HttpErrorResponse) => {
-        snackbar.showError(error.message);
+        this.snackbar.showError(error.message);
         throw new Error(error.message);
       }),
-    ).subscribe({
-      next: (value) => {
-        this.data = value;
-        this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
-      }
-    });
+    );
   }
 
   public groupedAndSortedMetadata: { date: Date; items: DocumentListViewModel[] }[] = [];
@@ -74,14 +77,42 @@ export class DocumentListComponent {
 
   public handleFileInput(event: Event) {
     const fileInput = event.target as HTMLInputElement;
-    const file: File | null = (fileInput.files && fileInput.files[0]) || null;
+    const fileList: FileList | null = fileInput.files;
 
-    console.log(file);
+    if (!fileList || fileList.length === 0) return;
+
+    const filesArray: File[] = Array.from(fileList);
+
+    const formData = new FormData();
+    filesArray.forEach((file: File) => {
+      formData.append('files', file, file.name);
+    });
+
+    this.http.post("api/documentlist", formData).subscribe({
+      next: (value: any) => {
+        this.snackbar.showSuccess(value.message);
+      },
+      error: (err) => {
+        this.snackbar.showError(err.message);
+      },
+    })
   }
 
   public open() {
     console.log("123");
 
+  }
+
+  public refreshData() {
+    this.snackbar.showInfo("Ansicht wird aktualisiert...");
+
+    this.loadData().subscribe({
+      next: (value) => {
+        this.snackbar.showSuccess("Ansicht aktualisiert");
+      }, error: (err) => {
+        this.snackbar.showError("Ansicht konnte nicht aktualisiert werden");
+      },
+    });
   }
 }
 
