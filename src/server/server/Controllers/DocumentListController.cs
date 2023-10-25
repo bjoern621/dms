@@ -1,36 +1,76 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using server.DTO.Response;
-using server.Models;
-using server.Services;
+using Server.DTO.Response;
+using Server.Services;
 
-namespace server.Controllers
+namespace Server.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class DocumentListController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DocumentListController : ControllerBase
+    private readonly DocumentCollectionService _documentCollection;
+    private FileManagementService _fileManagement;
+
+    public DocumentListController(DocumentCollectionService documentCollection, FileManagementService fileManagementService)
     {
-        private IMongoCollection<Document> _collection;
+        _documentCollection = documentCollection;
+        _fileManagement = fileManagementService;
+    }
 
-        public DocumentListController(IMongoDatabaseService databaseService)
+    /// <summary>
+    /// Fragt alle Dokumente in der Datenbank ab und wandelt diese in <see cref="DocumentListViewModel"/> um.
+    /// </summary>
+    /// <returns>Liste aller Dokumente in der Datenbank als <see cref="DocumentListViewModel"/>.</returns>
+    [HttpGet]
+    public async Task<IEnumerable<DocumentListViewModel>> GetAsync()
+    {
+        return (await _documentCollection.FindAsync(d => true))
+            .Select(d => new DocumentListViewModel
+            {
+                DocumentName = d.FileName,
+                CreationDate = d.History != null ? DateOnly.FromDateTime(d.History.First().Date) : DateOnly.MaxValue
+            })
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Legt neue Dateien in der Datenbank und im Dateisystem ab.
+    /// Der Dateiname wird in eine eindeutige UUID geändert.
+    /// </summary>
+    /// <returns><see cref="IActionResult"/> mit Message.</returns>
+    [HttpPost]
+    public async Task<IActionResult> PostAsync()
+    {
+        await Console.Out.WriteLineAsync("test");
+        foreach (var item in await Request.ReadFormAsync())
         {
-            _collection = databaseService.DocumentsCollection;
+            await Console.Out.WriteLineAsync(item.Key);
+        }
+        IFormFileCollection files = (await Request.ReadFormAsync()).Files;
+
+        foreach (IFormFile file in files)
+        {
+            string relativePath = "";
+            string originalFileName = file.FileName;
+            string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
+            string newFileName = Guid.NewGuid().ToString() + fileExtension;
+            string relativeFilePath = Path.Combine(relativePath, newFileName);
+
+            if(!_fileManagement.AddFile(relativeFilePath, file)) return BadRequest(new
+            {
+                Message = "Datei konnte nicht im Dateisystem gespeichert werden"
+            });
+
+            if (!await _documentCollection.AddAsync(relativeFilePath, originalFileName)) return BadRequest(new
+            {
+                Message = "Datei konnte nicht in der Datenbank gespeichert werden"
+            });
         }
 
-        /// <summary>
-        /// Gibt grundlegende Informationen aller Dokumente in der Datenbank zurück.
-        /// </summary>
-        [HttpGet]
-        public IEnumerable<DocumentListViewModel> Get()
+        return Accepted(new
         {
-            return _collection
-                .Find(d => true).ToEnumerable()
-                .Select(d => new DocumentListViewModel
-                {
-                    DocumentName = d.FilePath == null ? "" : d.FilePath.Substring(d.FilePath.LastIndexOf('\\') + 1),
-                    CreationDate = (d.History == null || d.History.First() == null || d.History.First().Date == null) ? DateOnly.MaxValue : DateOnly.FromDateTime(d.History.First().Date.Value)
-                })
-                .ToArray();
-        }
+            Message = "Datei gespeichert"
+        });
     }
 }

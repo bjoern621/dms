@@ -1,6 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Observable, catchError, map, retry } from 'rxjs';
+import { map } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
@@ -12,28 +12,33 @@ export class DocumentListComponent {
   private data: DocumentListViewModel[] = [];
 
   constructor(private http: HttpClient, private snackbar: SnackbarService) {
-    this.loadData().subscribe({
-      next: (value) => {
-        this.data = value;
-        this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
-      },
-    });
+    (async () => {
+      if (!await this.loadData()) {
+        snackbar.showError("Dokumente konnten nicht geladen werden")
+      }
+    })();
   }
 
-  private loadData(): Observable<DocumentListViewModel[]> {
-    return this.http.get<DocumentListViewModel[]>('api/documentlist').pipe(
-      map(items => {
-        return items.map(item => ({
-          documentName: item.documentName,
-          creationDate: new Date(item.creationDate),
-          previewImage: new Blob()
-        }));
-      }),
-      catchError((error: HttpErrorResponse) => {
-        this.snackbar.showError(error.message);
-        throw new Error(error.message);
-      }),
-    );
+  private loadData(): Promise<boolean> {
+    return new Promise(success => {
+      this.http.get<DocumentListViewModel[]>('api/documentlist').pipe(
+        map(items => {
+          return items.map(item => ({
+            documentName: item.documentName,
+            creationDate: new Date(item.creationDate),
+            previewImage: new Blob()
+          }));
+        }),
+      ).subscribe({
+        next: (value) => {
+          this.data = value;
+          this.groupedAndSortedMetadata = this.groupAndSortByDay(this.data);
+          success(true);
+        }, error(err) {
+          success(false);
+        },
+      });
+    });
   }
 
   public groupedAndSortedMetadata: { date: Date; items: DocumentListViewModel[] }[] = [];
@@ -55,6 +60,10 @@ export class DocumentListComponent {
       } else {
         groupedItems.push({ date: item.creationDate, items: [item] });
       }
+    });
+
+    groupedItems.forEach(group => {
+      group.items.reverse();
     });
 
     return groupedItems;
@@ -91,6 +100,8 @@ export class DocumentListComponent {
     this.http.post("api/documentlist", formData).subscribe({
       next: (value: any) => {
         this.snackbar.showSuccess(value.message);
+
+        this.loadData();
       },
       error: (err) => {
         this.snackbar.showError(err.message);
@@ -103,16 +114,14 @@ export class DocumentListComponent {
 
   }
 
-  public refreshData() {
+  public async refreshData() {
     this.snackbar.showInfo("Ansicht wird aktualisiert...");
 
-    this.loadData().subscribe({
-      next: (value) => {
-        this.snackbar.showSuccess("Ansicht aktualisiert");
-      }, error: (err) => {
-        this.snackbar.showError("Ansicht konnte nicht aktualisiert werden");
-      },
-    });
+    if (await this.loadData()) {
+      this.snackbar.showSuccess("Ansicht aktualisiert");
+    } else {
+      this.snackbar.showError("Ansicht konnte nicht aktualisiert werden");
+    }
   }
 }
 

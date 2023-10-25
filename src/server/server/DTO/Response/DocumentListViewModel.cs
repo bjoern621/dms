@@ -1,4 +1,4 @@
-﻿namespace server.DTO.Response;
+﻿namespace Server.DTO.Response;
 
 public class DocumentListViewModel
 {
