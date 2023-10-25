@@ -1,7 +1,6 @@
-using Microsoft.Extensions.Options;
 using server;
 using server.Models;
-using server.Services;
+using Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,22 +28,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var importer = new DocumentImporter(
-    new MongoDatabaseService(
-        Options.Create(
-            new MongoDBSettings 
-            { 
-                ConnectionString= "mongodb://localhost:27017", 
-                DatabaseName="DMS",
-                DocumentsCollectionName="Documents" 
-            })));
-importer.ImportDocuments();
-
 app.Run();
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
     builder.Services
         .Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"))
-        .AddSingleton<IMongoDatabaseService, MongoDatabaseService>();
+        .AddSingleton<DocumentCollectionService>()
+        .AddTransient(provider =>
+        {
+            return new FileManagementService(builder.Configuration.GetValue<string>("FileRootDirectoryOverride"));
+        });
 }
